@@ -1,0 +1,9 @@
+{
+    "url": "https://bonsai.sensu.io/release_assets/sensu/example",
+    "sha512": "",
+    "metadata": {
+        "name": "example-asset",
+        "Content-Type": "application/zip",
+        "namespace": "default"
+    }
+

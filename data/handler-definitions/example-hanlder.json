@@ -1,0 +1,15 @@
+{
+    "metadata": {
+        "name": "example-handler",
+        "namespace": "default"
+    },
+    "type": "pipe",
+    "command": "/path/to/handler/script",
+    "timeout": 0,
+    "handlers": [],
+    "filters": [
+        "critical-check-result"
+    ],
+    "env_vars": [],
+    "runtime_assets": []
+}

@@ -1,0 +1,34 @@
+{
+    "command": "example -h $(hostname)"
+    "environment": "default",
+    "handlers": [
+        "example"
+    ],
+    "high_flap_threshold": 0,
+    "interval": 3600,
+    "low_flap_threshold": 0,
+    "metadata": {
+        "name": "example",
+        "namespace": "default",
+        "labels": {
+        },
+	"annotations": null
+    },
+    "organization": "default",
+    "publish": true,
+    "runtime_assets": [
+    ],
+    "subscriptions": [
+    ],
+    "proxy_entity_id": "",
+    "check_hooks": null,
+    "stdin": false,
+    "subdue": null,
+    "ttl": 3800,
+    "timeout": 30,
+    "round_robin": false,
+    "output_metric_format": "",
+    "output_metric_handlers": null,
+    "env_vars": null
+}
+

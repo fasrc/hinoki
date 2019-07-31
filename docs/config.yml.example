@@ -1,0 +1,72 @@
+
+## Example configuration file for hinoki
+##
+## should be placed in ~/.hinoki/config.yml
+##
+
+## Required
+## The base URL, without port, of your sensu API instance
+api_base_url: https://sensu-api-server.example.com
+
+## Required
+## The username for the sensu user you will use to interact with the API
+api_user: sensu_api_user
+
+## Required
+## The password for your sensu API user above
+api_password: sensu_api_user_password
+
+## Required
+## The URL, including port and API endpoint, of your sensu API instance's health check
+api_healthcheck_endpoint: "https://sensu-api-server.example.com:8080/health"
+
+## Required
+## The URL, including port and endpoint, of auth for your sensu API instance
+api_auth_endpoint: "https://sensu-api-server.example.com:8080/auth"
+
+## Required
+## The URL, including port and full endpoint, of the versioned endpoint for your sensu API instance
+api_version_endpoint: "https://sensu-api-server.example.com:8080/api/core/v2/endpoint"
+
+## Required
+## Set base directory for definitions
+## Defaults to [repository_root]/data/ if not explicitly set
+
+definition_base_dir: /home/example/checks/
+
+## Required 
+## The folder in which your assets will be placed after they are packaged and built;
+## For example, depending on particulars of workflow, this may be the root of a
+## web server used to present assets to sensu agents, or it could be a directory
+## where another process can grab and move the packaged files.
+assets_destination: "/root/srv/assets"
+api_port: "8080"
+
+## Required for initialize_cluster functionality only
+## The username for the sensu default built-in user
+default_admin_user: "admin"
+
+## Required for initialize_cluster functionality only
+## The default password that sensu ships with for its default built-in admin user
+## This is needed when using the initialize_cluster script to automatically change the password
+## from the default to one of your selection
+default_admin_password: "P@ssw0rd!"
+
+##  Required for initialize_cluster functionality only
+##  This is the new secure password for the default built-in user.  We use config management
+##  to lay this down; with some additions to this codebase, it could also be fetched from a 
+##  secret manager such as Vault
+secure_admin_password: "examplesecurepassword"
+
+## Optional
+## Set log level
+## Defaults to WARN if not explicitly set
+log_level: "WARN"
+
+## Optional
+## This project logs to syslog by default; this is the destination for the syslog handler
+## For MacOS local development use:
+##
+## syslog_handler: '/var/run/syslog'
+##
+## If unset, defaults to '/dev/log' which works on Centos 7

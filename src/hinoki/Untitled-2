@@ -1,0 +1,36 @@
+TODO: (in no particular order)
+
+	- renames for various modules
+	- text color changes
+	- directory updates
+
+ - should validate against api's schema - would be better to have documentation for this
+ - SSL
+ - file permissions
+ - continue to clean naming as we go
+ - support yaml or json definition files for API calls?
+ - build out cruft-catcher
+ - README
+ - create a method to add the gitlab user if not exists?  or at least the build can check and throw a coherent error
+ if this happens.
+
+ - change text color for test/validation output
+ - update directory to reflect reality/allow users to configure where their stuff is
+ 
+
+TODO testing:
+- invalid json
+- improper file or check naming
+- nonexistent or invalid directory
+- API health check fail
+- API authentication fail
+- rsync:
+   - improper permissions
+   - empty directory
+   - remove file
+   - file/directory does not exist
+- misconfiguration of various sorts
+- network latency/inability to connect to API/timeout
+
+From assets.py:
+        # throw an exception if the file is empty
