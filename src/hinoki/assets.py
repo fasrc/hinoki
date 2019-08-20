@@ -13,8 +13,19 @@ def build_assets():
 
     asset_list = []
 
-    output = os.listdir(config['check_scripts_dir'])
-    asset_list = os.listdir(config['asset_defs_dir'])
+    try:
+        output = os.listdir(config['check_scripts_dir'])
+    except FileNotFoundError:
+        log.error("Error: no check scripts directory present at "+config['check_scripts_dir'])
+        return False
+
+    try:   
+        asset_list = os.listdir(config['asset_defs_dir'])
+    except FileNotFoundError:
+        log.error("Error: no asset definitions directory present at "+config['asset_defs_dir'])
+        return False
+
+    log.info("Beginning asset build...")
 
     try:
         output.remove('.DS_Store')
@@ -22,8 +33,11 @@ def build_assets():
         pass
 
     if not os.path.exists(config['asset_files_dir']):
-        os.mkdir(config['asset_files_dir'])
-        log.debug(output)
+        try:
+            os.mkdir(config['asset_files_dir'])
+        except OSError:
+            log.info("Failed to create storage directory for asset tar files")
+            return False
     for item in output:
         asset_hash = ''
         basename = os.path.basename(item)
@@ -31,16 +45,13 @@ def build_assets():
         archive_name = basename+".tar"
         archive_path = os.path.join(config['asset_files_dir'], archive_name)
         archive_file = open(archive_path, 'w')
-        tarproc = subprocess.Popen(["tar", "--mtime", "'1970-01-01 00:00:00'", "--owner", "root", "-cv", "-C", basepath, 'bin'], stdout=archive_file)
-        tarproc.wait()
-        archive_file.close()
-        log.debug(basename)
-        log.debug("This should be empty:")
-        log.debug(asset_hash)
+        with open(os.devnull, 'w') as devnull:
+            tarproc = subprocess.Popen(["tar", "--mtime", "'1970-01-01 00:00:00'", "--owner", "root", "-c", "-C", basepath, 'bin'], stdout=archive_file, stderr=devnull)
+            tarproc.wait()
+            archive_file.close()
+        log.debug("basename: "+basename)
         asset_hash = hashlib.sha512(open(archive_path,'rb').read()).hexdigest()
-        log.debug("This should have a correct hash:")
-        log.debug(asset_hash)
-        log.debug("archive_path = {}".format(archive_path))
+        log.debug("asset hash: "+asset_hash)
         asset_definition_file = os.path.join(config['asset_defs_dir'], basename+".json")
         log.info(asset_definition_file)
         if not os.path.exists(asset_definition_file):

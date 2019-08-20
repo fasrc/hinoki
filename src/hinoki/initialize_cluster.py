@@ -11,7 +11,8 @@ from hinoki.logger import log
 from hinoki.sensuapi import sensu_connect
 from hinoki.config import config
 
-def init():
+def init_cluster():
+  log.info("Connecting to API with default credentials....")
   api_user_role_name="api-user"
   api_user_role_binding_name="api-user-grant"
   cluster_role_endpoint="clusterroles/"+api_user_role_name
@@ -25,6 +26,7 @@ def init():
     "password": config['api_password']
   })
 
+  log.info("Creating API user....")
   sensu_connect.perform_api_call(endpoint=config['api_items']['user']['endpoint']+"/"+config['api_user'], request_body=create_api_user_body)
 
   create_role_body=json.dumps(
@@ -46,6 +48,7 @@ def init():
   })
 
   log.debug(create_role_body)
+  log.info("Creating API role....")
   sensu_connect.perform_api_call(endpoint=cluster_role_endpoint, request_body=create_role_body)
 
   create_role_binding_body=json.dumps(
@@ -66,6 +69,7 @@ def init():
   })
 
   log.debug(create_role_binding_body)
+  log.info("Creating API role binding....")
   sensu_connect.perform_api_call(endpoint=role_binding_endpoint, request_body=create_role_binding_body)
   change_pwd_body=json.dumps(
   {
@@ -76,4 +80,7 @@ def init():
     ]
   })
 
+  log.info("Updating default password...")
   sensu_connect.perform_api_call(endpoint=config['api_items']['user']['endpoint']+"/"+config['default_admin_user'], request_body=change_pwd_body)
+
+  log.info("Setup complete!")

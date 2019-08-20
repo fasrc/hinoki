@@ -12,7 +12,6 @@ def load_config():
     config['config_file_dir'] = os.path.join(os.path.expanduser('~'), '.hinoki')
     config['config_file_path'] = os.path.join(config['config_file_dir'], 'config.yml')
     config['main_script_dir'] = os.path.dirname(os.path.realpath(sys.argv[0]))
-
     # vars stored in config file
     # this ensures that anything specified in the config file overwrites what's specified here
     try:
@@ -20,7 +19,7 @@ def load_config():
     except OSError:
         print('Error attempting to open config file '+config['config_file_path']+' for reading.')
         return False
-    configvals = yaml.load(configfile, Loader=yaml.FullLoader)
+    configvals = yaml.load(configfile, Loader=yaml.Loader)
     configfile.close()
 
     config.update(configvals)
@@ -72,8 +71,8 @@ def load_config():
     try:
         config['log_level']
     except KeyError:
-        config['log_level'] = 'WARN'
-    
+        config['log_level'] = 'INFO'
+
     return config
 
 config = load_config()
