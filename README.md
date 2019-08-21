@@ -14,13 +14,13 @@ your Sensu configuration as code.
 
 Requires Python > 3.7
 
-#### Build:
-
-```python setup.py sdist bdist_wheel```
-
 #### Install:
 
-```pip install dist/hinoki-0.0.1-py2.py3-none-any.whl```
+The most expedient install method is pip:
+
+```pip install hinoki```
+
+Configuration is **required** for this app's commands to function properly!  Please see below.
 
 #### Configure:
 
@@ -29,8 +29,18 @@ in a ```.hinoki``` folder in the home directory of the user which will run the c
 
 ```/home/[user]/.hinoki/config.yml```
 
+There is an example configuration file in this repo, under docs/config.yml.example, which lists
+each option and whether it is required.  There are several values which are explicitly required
+and **will not work correctly with defaults**.  Please read the example config file and be
+mindful of these values!
+
 Hinoki expects a particular file structure convention in order to work properly.  An example
-structure can be viewed in the data directory of this repository. 
+structure can be viewed in the data directory of this repository.  The example config file 
+shows an example of using the `definition_base_dir` parameter to point to the directory you create.
+
+Hinoki also requires a destination folder for packaged assets.  This can be any folder provided
+that the user running hinoki has write permissions to it.  This directory can be configured using
+the `assets_destination` parameter.
 
 #### Run:
 
@@ -42,25 +52,38 @@ Available commands:
 
 Commands:
   build-assets
-  imports
-  inits
+  import
+  init
   validate
 ```
 
   * **validate**: run through validation of all subfolders containing definitions.
    check for invalid json, and for file names that match object names.
 
-  * **imports**: run through all directories containing configuration and import their
+  * **import**: run through all directories containing configuration and import their
    contents to the sensu api.  build assets, tar them, move them to a configurable 
    location, and automatically add the hashes of the built packages to the 
    asset definition files.
 
-  * **inits**: initialize a new sensu install from scratch; if you have a clean install,
+  * **init**: initialize a new sensu install from scratch; if you have a clean install,
    run this before running your imports.
 
   * **build-assets**: run only the build assets portion of the build - tar them, move them
    to a configurable location, and automatically add the hashes of the built packages to the 
    asset definition files.
+
+
+## Building from Source:
+
+This project uses setuptools for builds:
+
+**Build:**
+
+```python setup.py sdist bdist_wheel```
+
+**Install:**
+
+``pip install dist/hinoki-0.0.1-py2.py3-none-any.whl``
 
 ## Acknowledgements
 

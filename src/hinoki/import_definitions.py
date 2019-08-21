@@ -26,6 +26,7 @@ def import_defs():
 	sensu_connect.api_auth()
 
 	# sync asset definitions
+	# this relies on accurate hashes built into these files already using the build_assets functionality.
 
 	if asset_list:
 		for file in asset_list:
@@ -34,7 +35,7 @@ def import_defs():
 				asset_defs=False
 				break
 			if asset_defs:
-				log.info("Asset definitions successfully imported.")
+				log.info("Asset definition successfully imported for "+file)
 		assets=sync_assets()
 
 	# sync definitions
@@ -50,6 +51,7 @@ def import_defs():
 			if import_succeeded:
 				log.info("All "+item_name+" definitions succesfully imported.")
 		except KeyError:
+			log.debug("No directory key for api item "+item_name)
 			pass
 
 	if (assets and asset_defs and check_defs):

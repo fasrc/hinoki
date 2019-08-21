@@ -56,7 +56,10 @@ class SensuAPICall:
 	# sets the auth token, or False and logs errors
 	def api_auth(self, user=config['api_user'], password=config['api_password'], auth_endpoint=config['api_auth_endpoint']):
 		resp=requests.get(auth_endpoint, auth=(user, password), headers=self.headers)
-		data=json.loads(resp.content.decode('utf-8'))
+		try:
+			data=json.loads(resp.content.decode('utf-8'))
+		except ValueError:
+			log.error("Unable to log in.")
 		try:
 			token=data['access_token']
 		except NameError:
