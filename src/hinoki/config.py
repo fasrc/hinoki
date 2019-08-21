@@ -76,3 +76,6 @@ def load_config():
     return config
 
 config = load_config()
+if config == False:
+    print("Error creating config, exiting.")
+    exit(1)
